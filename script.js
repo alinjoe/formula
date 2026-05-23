@@ -397,7 +397,7 @@ function animateSVG(sectionId, svgContent, fields) {
     if (!defs.querySelector('#stressGlow')) {
       defs.innerHTML += `
         <filter id="stressGlow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="6" result="blur" />
+          <feGaussianBlur stdDeviation="2" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -1836,33 +1836,62 @@ document.addEventListener('DOMContentLoaded', () => {
       : `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
   });
 
-  // Mobile Sidebar Drawer Toggle Events
+  // Sidebar Drawer & Collapsible Sliding Toggle Events
   const sidebar = document.getElementById('sidebar-nav');
   const sidebarOverlay = document.getElementById('mobile-sidebar-overlay');
   const mobileToggle = document.getElementById('btn-sidebar-mobile-toggle');
   
-  function toggleMobileSidebar(show) {
-    if (show) {
-      sidebar.classList.add('mobile-open');
-      sidebarOverlay.classList.add('active');
+  // Load desktop sidebar collapsed state from storage
+  const isMobileOnLoad = window.innerWidth <= 768;
+  if (!isMobileOnLoad && sidebar) {
+    const isCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
+    if (isCollapsed) {
+      sidebar.classList.add('collapsed');
+    }
+  }
+
+  function toggleSidebarState() {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      const isOpen = sidebar.classList.contains('mobile-open');
+      if (isOpen) {
+        sidebar.classList.remove('mobile-open');
+        sidebarOverlay.classList.remove('active');
+      } else {
+        sidebar.classList.add('mobile-open');
+        sidebarOverlay.classList.add('active');
+      }
     } else {
-      sidebar.classList.remove('mobile-open');
-      sidebarOverlay.classList.remove('active');
+      // Desktop Slide Collapse Toggle (Notion/Arc style)
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      if (isCollapsed) {
+        sidebar.classList.remove('collapsed');
+        localStorage.setItem('sidebar-collapsed', 'false');
+      } else {
+        sidebar.classList.add('collapsed');
+        localStorage.setItem('sidebar-collapsed', 'true');
+      }
     }
   }
   
   if (mobileToggle) {
-    mobileToggle.addEventListener('click', () => toggleMobileSidebar(true));
+    mobileToggle.addEventListener('click', toggleSidebarState);
   }
   
   if (sidebarOverlay) {
-    sidebarOverlay.addEventListener('click', () => toggleMobileSidebar(false));
+    sidebarOverlay.addEventListener('click', () => {
+      sidebar.classList.remove('mobile-open');
+      sidebarOverlay.classList.remove('active');
+    });
   }
   
   // Close mobile sidebar automatically on navigation clicks
   document.querySelectorAll('.menu-item').forEach(item => {
     item.addEventListener('click', () => {
-      toggleMobileSidebar(false);
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('mobile-open');
+        sidebarOverlay.classList.remove('active');
+      }
     });
   });
 });
