@@ -1,0 +1,1537 @@
+/* Futuristic 2D CAD Engineering Operating System Design System - Cinematic OS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Futuristic Dark OS Palette (Stripe/Linear/Tesla Inspired) */
+  --bg-app: #08080a; /* Deep cosmic matte graphite */
+  --bg-sidebar: #0b0b0e; /* Obsidian sidebar backdrop */
+  --bg-card: rgba(18, 18, 22, 0.75); /* Glassmorphic obsidian cards */
+  --bg-input: #1a1a24; /* Technical input charcoal */
+  --border-color: rgba(255, 255, 255, 0.05); /* Technical micro-separator */
+  --border-active: #3b82f6; /* Electric Blue Accent */
+  
+  --text-main: #f4f4f7; /* High contrast bright white-grey */
+  --text-muted: #a1a1b2; /* Muted cool grey */
+  --text-light: #6b6b7a; /* Subtle structural captions */
+  
+  /* Glowing Engineering LEDs & Accents */
+  --accent-blue: #3b82f6; /* Electric Blue */
+  --accent-cyan: #00f0ff; /* Glowing CAD Cyan */
+  --accent-teal: #10b981; /* Glowing Safety Green */
+  --accent-amber: #f59e0b; /* Limit Warning Amber */
+  --accent-rose: #ef4444; /* Overstressed Fail Red */
+  
+  /* Font Stacks */
+  --font-title: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-data: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  
+  /* Spreadsheet Grid theme overrides */
+  --grid-header-bg: #121216;
+  --grid-header-text: #a1a1b2;
+  --grid-border: rgba(255, 255, 255, 0.05);
+  --grid-selected-cell: rgba(59, 130, 246, 0.12);
+  --grid-selected-border: #3b82f6;
+  
+  /* Motion & Depth Design */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.7);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.9);
+  --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --glass-bg: rgba(8, 8, 10, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.04);
+}
+
+/* Light Theme overrides */
+[data-theme="light"] {
+  --bg-app: #f4f4f7;
+  --bg-sidebar: #ececf1;
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-input: #ececf1;
+  --border-color: rgba(9, 9, 11, 0.06);
+  --border-active: #2563eb;
+  
+  --text-main: #09090b;
+  --text-muted: #717180;
+  --text-light: #a1a1b2;
+  
+  --accent-blue: #2563eb;
+  --accent-cyan: #0891b2;
+  --accent-teal: #059669;
+  --accent-amber: #d97706;
+  --accent-rose: #dc2626;
+  
+  --grid-header-bg: #ececf1;
+  --grid-header-text: #717180;
+  --grid-border: rgba(9, 9, 11, 0.06);
+  --grid-selected-cell: rgba(37, 99, 235, 0.08);
+  --grid-selected-border: #2563eb;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(9, 9, 11, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Premium Custom Scrollbar Overrides (Figma/Cinematic Dark Theme) --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Specific sub-navigation slim horizontal scrollbar */
+.dashboard-sub-nav::-webkit-scrollbar {
+  height: 4px;
+}
+
+.dashboard-sub-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard-sub-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.dashboard-sub-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] .dashboard-sub-nav::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .dashboard-sub-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+
+body {
+  font-family: var(--font-data);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  transition: background-color 0.3s var(--transition-smooth), color 0.3s var(--transition-smooth);
+}
+
+/* --- Premium Workspace Container --- */
+.app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* --- Collapsible left Sidebar: Figma / Notion Style Overhaul --- */
+.sidebar-navigation {
+  width: 320px;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex-shrink: 0;
+  z-index: 10;
+  transition: width 0.3s var(--transition-smooth);
+}
+
+.sidebar-logo {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo-symbol {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  color: white;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-title);
+  font-weight: 900;
+  font-size: 18px;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.logo-text h1 {
+  font-family: var(--font-title);
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  background: linear-gradient(120deg, #ffffff, var(--text-muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sidebar-menu {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scroll-behavior: smooth;
+}
+
+.menu-section-label {
+  font-family: var(--font-title);
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-light);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin: 12px 8px 6px 8px;
+}
+
+/* PREMIUM INTERACTIVE CARDS: Replaces Module Lists! */
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+/* Soft technical gradient backdrop for cards */
+.menu-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(0, 240, 255, 0.01) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.menu-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 10px rgba(59, 130, 246, 0.05);
+  color: var(--text-main);
+}
+
+.menu-item:hover::before {
+  opacity: 1;
+}
+
+.menu-item.active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(0, 240, 255, 0.02) 100%);
+  border-color: var(--border-active);
+  color: var(--accent-blue);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.1), var(--shadow-sm);
+  font-weight: 600;
+}
+
+.menu-item-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-item-icon {
+  font-size: 16px;
+  background-color: var(--bg-input);
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  transition: var(--transition-smooth);
+}
+
+.menu-item.active .menu-item-icon {
+  background-color: var(--grid-selected-cell);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.2);
+}
+
+.menu-item-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.menu-item-desc {
+  font-size: 11px;
+  color: var(--text-light);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* Collapsible nested sections loop in sidebar */
+.sidebar-sections-list {
+  margin-top: 6px;
+  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-left: 10px;
+  border-left: 1px solid var(--border-color);
+}
+
+.sidebar-section-item {
+  font-size: 11.5px;
+  font-family: var(--font-data);
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: var(--text-light);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: var(--transition-smooth);
+}
+
+.sidebar-section-item:hover, .sidebar-section-item.active {
+  color: var(--text-main);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.sidebar-section-item.active {
+  color: var(--accent-cyan);
+  background-color: rgba(6, 182, 212, 0.05);
+  font-weight: 600;
+}
+
+/* Sidebar Footer Command button */
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* --- Top Action Header --- */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.top-header {
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9;
+}
+
+.header-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.header-meta h2 {
+  font-family: var(--font-title);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.header-meta p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Search CMD Trigger Button */
+.btn-cmd-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-cmd-trigger:hover {
+  border-color: var(--border-active);
+  color: var(--text-main);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
+}
+
+.cmd-shortcut-key {
+  background-color: var(--bg-input);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+/* View Switcher Controls */
+.view-switcher {
+  display: flex;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  padding: 3px;
+  border-radius: 8px;
+  gap: 2px;
+}
+
+.view-switcher-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-smooth);
+}
+
+.view-switcher-btn:hover {
+  color: var(--text-main);
+}
+
+.view-switcher-btn.active {
+  background-color: var(--bg-card);
+  color: var(--accent-blue);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+/* Glassmorphic buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
+}
+
+.btn:hover {
+  background-color: var(--bg-input);
+  border-color: var(--border-active);
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-blue), #2563eb);
+  color: white;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--bg-input);
+  color: var(--text-main);
+}
+
+/* --- Container views wrapper --- */
+.view-container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.view-container.hidden {
+  display: none !important;
+}
+
+/* ==========================================
+   DASHBOARD VIEW: 3-Panel Cinematic OS
+   ========================================== */
+.dashboard-layout {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+.pane-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-app);
+}
+
+/* LEFT PANEL: Design Input parameters */
+.panel-inputs {
+  width: 360px;
+  border-right: 1px solid var(--border-color);
+  flex-shrink: 0;
+  background-color: #0b0b0e;
+}
+
+.panel-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: rgba(24, 24, 27, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel-header h3 {
+  font-family: var(--font-title);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Technical form inputs row layout */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border-color);
+  padding: 14px;
+  border-radius: 12px;
+  transition: var(--transition-smooth);
+}
+
+.form-group:hover {
+  border-color: rgba(255, 255, 255, 0.08);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.form-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.form-unit {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  background-color: rgba(0, 240, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+}
+
+.form-input-container {
+  display: flex;
+  gap: 6px;
+}
+
+.form-input-control {
+  flex: 1;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  font-size: 13.5px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  outline: none;
+  transition: var(--transition-smooth);
+  text-align: right;
+}
+
+.form-input-control:focus {
+  border-color: var(--border-active);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+/* Increment/Decrement helper step buttons */
+.form-step-btn {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  width: 32px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.form-step-btn:hover {
+  border-color: var(--border-active);
+  color: var(--text-main);
+  background-color: var(--bg-card);
+}
+
+/* Modern Range Slider override */
+.form-range-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--bg-input);
+  outline: none;
+  margin-top: 6px;
+}
+
+.form-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--accent-cyan);
+  transition: transform 0.15s var(--transition-smooth);
+}
+
+.form-range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  box-shadow: 0 0 15px var(--accent-cyan);
+}
+
+/* CENTER PANEL: Large 2D CAD Visualization Canvas */
+.panel-visualization {
+  flex: 1;
+  /* Dotted technical grid backdrop */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-color: #070709;
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.dashboard-sub-nav {
+  display: flex;
+  background-color: var(--bg-card);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 24px;
+  overflow-x: auto;
+  gap: 24px;
+  height: 48px;
+}
+
+.dashboard-sub-tab {
+  display: flex;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  height: 100%;
+  white-space: nowrap;
+  transition: var(--transition-smooth);
+}
+
+.dashboard-sub-tab:hover {
+  color: var(--text-main);
+}
+
+.dashboard-sub-tab.active {
+  color: var(--accent-blue);
+}
+
+.dashboard-sub-tab.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background-color: var(--accent-blue);
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 -2px 10px var(--accent-blue);
+}
+
+.visualization-viewer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+}
+
+/* Technical Visual CAD Frame */
+.vector-diagram-card {
+  width: 100%;
+  max-width: 680px;
+  background-color: rgba(18, 18, 22, 0.85);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(59, 130, 246, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  backdrop-filter: blur(20px);
+}
+
+.vector-diagram-card h3 {
+  font-family: var(--font-title);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+  border-left: 3px solid var(--accent-cyan);
+  padding-left: 8px;
+}
+
+.vector-diagram-card svg {
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.03));
+}
+
+.diagram-caption {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Floating CAD grid overlay indicator */
+.live-visual-overlay {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+  z-index: 5;
+}
+
+.live-indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-cyan);
+  animation: pulse 1s infinite alternate;
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+/* RIGHT PANEL: Glowing Performance Gauges & Results */
+.panel-results {
+  width: 400px;
+  flex-shrink: 0;
+  background-color: #0b0b0e;
+}
+
+.results-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-divider-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 4px;
+}
+
+/* Large dashboard metric card */
+.metric-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: var(--transition-smooth);
+}
+
+.metric-card:hover {
+  border-color: rgba(59, 130, 246, 0.25);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.05);
+}
+
+.metric-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metric-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.metric-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 8px;
+}
+
+.badge-safe {
+  color: var(--accent-teal);
+  background-color: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+}
+
+.badge-danger {
+  color: var(--accent-rose);
+  background-color: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.1);
+}
+
+.metric-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: 38px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -1.5px;
+  /* Value interpolation sliding look */
+  transition: transform 0.2s;
+}
+
+.metric-unit {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Concentric Capacity visual circle gauges */
+.gauge-visual-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.gauge-svg-container {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gauge-circle-bg {
+  fill: none;
+  stroke: var(--bg-input);
+  stroke-width: 8px;
+}
+
+.gauge-circle-fill {
+  fill: none;
+  stroke: var(--accent-cyan);
+  stroke-dasharray: 251.2;
+  stroke-dashoffset: 251.2; /* Animates dynamically */
+  stroke-width: 8px;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 0.4s var(--transition-smooth), stroke 0.4s;
+  filter: drop-shadow(0 0 4px var(--accent-cyan));
+}
+
+.gauge-value-text {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.gauge-info-text h4 {
+  font-family: var(--font-title);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.gauge-info-text p {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Beautiful dynamic formula card */
+.equation-ledger-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.equation-rendered {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-rose);
+  background-color: rgba(9, 9, 11, 0.4);
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  word-break: break-all;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.equation-substitution {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.equation-variable-pill {
+  background-color: var(--bg-input);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-main);
+  display: inline-block;
+  margin-right: 6px;
+  border: 1px solid var(--border-color);
+}
+
+/* ==========================================
+   GRID VIEW: Premium Figma-like Spreadsheet
+   ========================================== */
+.grid-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+.formula-bar {
+  background-color: #0b0b0e;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 10px 24px;
+  gap: 12px;
+}
+
+.spreadsheet-grid {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background-color: #070709;
+}
+
+.excel-table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: max-content;
+  background-color: #070709;
+}
+
+.excel-table th, .excel-table td {
+  border: 1px solid var(--grid-border);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-family: var(--font-data);
+}
+
+.col-header {
+  background-color: #0f0f13;
+  color: var(--grid-header-text);
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.row-header {
+  background-color: #0f0f13;
+  color: var(--grid-header-text);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  border-right: 2px solid var(--border-color);
+}
+
+.corner-header {
+  background-color: #0f0f13;
+  border-right: 2px solid var(--border-color);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.excel-cell {
+  background-color: #070709;
+  color: var(--text-main);
+  transition: background-color 0.1s;
+}
+
+.excel-cell:hover {
+  background-color: rgba(255, 255, 255, 0.01);
+}
+
+.excel-cell.cell-selected {
+  background-color: var(--grid-selected-cell);
+  box-shadow: inset 0 0 0 1px var(--grid-selected-border);
+}
+
+/* Active header state overrides */
+.col-header.header-active, .row-header.header-active {
+  background-color: rgba(59, 130, 246, 0.06);
+  color: var(--accent-blue);
+}
+
+/* Custom grid cells background overrides */
+.excel-cell[style*="background-color: rgb(219, 234, 254)"],
+.excel-cell[style*="background-color: #dbeafe"],
+.excel-cell[style*="background-color: rgb(224, 242, 254)"],
+.excel-cell[style*="background-color: #e0f2fe"],
+.excel-cell[style*="background-color: rgb(204, 251, 241)"],
+.excel-cell[style*="background-color: #ccfbf1"],
+.excel-cell[style*="background-color: rgb(255, 228, 230)"],
+.excel-cell[style*="background-color: #ffe4e6"] {
+  background-color: rgba(0, 240, 255, 0.07) !important;
+  color: var(--accent-cyan) !important;
+  box-shadow: inset 0 0 0 1px rgba(0, 240, 255, 0.15);
+}
+
+/* Headers of section blocks styled dynamically in raw grid */
+.excel-cell[style*="background-color: rgb(30, 64, 175)"],
+.excel-cell[style*="background-color: #1e40af"],
+.excel-cell[style*="background-color: rgb(2, 132, 199)"],
+.excel-cell[style*="background-color: #0284c7"],
+.excel-cell[style*="background-color: rgb(15, 118, 110)"],
+.excel-cell[style*="background-color: #0f766e"],
+.excel-cell[style*="background-color: rgb(190, 18, 60)"],
+.excel-cell[style*="background-color: #be123c"] {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, rgba(0, 240, 255, 0.01) 100%) !important;
+  color: #ffffff !important;
+  font-family: var(--font-title);
+  font-weight: 800 !important;
+  letter-spacing: -0.2px;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* ==========================================
+   FLOATING QUICK COMMAND BAR (Raycast-like)
+   ========================================== */
+.cmd-bar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 12vh;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition-smooth);
+}
+
+.cmd-bar-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cmd-bar-modal {
+  width: 100%;
+  max-width: 580px;
+  background-color: rgba(18, 18, 22, 0.95);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg), 0 0 50px rgba(0,0,0,0.8);
+  overflow: hidden;
+  backdrop-filter: blur(24px);
+  transform: translateY(-20px);
+  transition: var(--transition-smooth);
+}
+
+.cmd-bar-overlay.visible .cmd-bar-modal {
+  transform: translateY(0);
+}
+
+.cmd-bar-search-row {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  gap: 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cmd-bar-search-icon {
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+.cmd-bar-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-family: var(--font-data);
+}
+
+.cmd-bar-results-list {
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cmd-bar-result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.cmd-bar-result-item:hover, .cmd-bar-result-item.selected {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.cmd-bar-result-item.selected {
+  background-color: var(--grid-selected-cell);
+}
+
+.result-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.result-item-icon {
+  color: var(--accent-blue);
+  font-size: 16px;
+}
+
+.result-item-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.result-item-cat {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-light);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.result-item-shortcut {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-light);
+  background-color: var(--bg-input);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+/* ==========================================
+   APP FOOTER: High-fidelity details bar
+   ========================================== */
+.footer-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--accent-teal);
+  background-color: rgba(16, 185, 129, 0.08);
+  padding: 3px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.footer-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-teal);
+  box-shadow: 0 0 6px var(--accent-teal);
+}
+
+/* --- App Footer / Status Bar --- */
+.app-footer {
+  background-color: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  padding: 8px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  z-index: 100;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* --- Pulse animation -- */
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* ==========================================
+   PRINTING STYLES: Gorgeous monochrome CAD reports
+   ========================================== */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  
+  .sidebar-navigation, .top-header, .dashboard-sub-nav, .panel-inputs, .app-footer, .formula-bar {
+    display: none !important;
+  }
+  
+  .main-content, .dashboard-layout, .panel-visualization {
+    overflow: visible !important;
+    height: auto !important;
+    width: 100% !important;
+    border: none !important;
+    padding: 0 !important;
+    background: none !important;
+  }
+  
+  .visualization-viewer {
+    padding: 0 !important;
+    margin-bottom: 40px;
+  }
+  
+  .vector-diagram-card {
+    border: 1px solid #000000 !important;
+    box-shadow: none !important;
+    background-color: #ffffff !important;
+    max-width: 100% !important;
+    padding: 16px !important;
+    page-break-inside: avoid;
+  }
+  
+  .vector-diagram-card svg {
+    filter: invert(0) !important;
+  }
+  
+  .panel-results {
+    width: 100% !important;
+    padding: 0 !important;
+    page-break-before: always;
+  }
+  
+  .metric-card, .gauge-visual-card, .equation-ledger-card {
+    border: 1px solid #000000 !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    margin-bottom: 20px;
+  }
+  
+  .metric-value, .gauge-value-text, .equation-rendered {
+    color: #000000 !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+}
+
+/* ==========================================
+   INSTRUCTIONS VIEW: Beautiful cinematic guide grid
+   ========================================== */
+#instructions-view-container {
+  overflow-y: auto;
+  background-color: var(--bg-app);
+}
+
+.instructions-overlay {
+  flex: 1;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.instructions-overlay h2 {
+  font-family: var(--font-title);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.8px;
+  background: linear-gradient(120deg, #ffffff, var(--text-muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.instructions-subtitle {
+  font-family: var(--font-title);
+  font-size: 15px;
+  color: var(--text-muted);
+  max-width: 800px;
+  line-height: 1.6;
+  margin-top: -16px;
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.guide-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: var(--transition-smooth);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+}
+
+.guide-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.05);
+}
+
+.guide-card-icon {
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+
+.guide-card h3 {
+  font-family: var(--font-title);
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.guide-card p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.quick-launch-deck h3 {
+  font-family: var(--font-title);
+  font-size: 17px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 20px;
+  letter-spacing: -0.3px;
+  border-left: 3px solid var(--accent-cyan);
+  padding-left: 10px;
+}
+
+.launch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.launch-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+}
+
+.launch-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.05) 0%, rgba(59, 130, 246, 0.01) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.launch-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 240, 255, 0.05);
+}
+
+.launch-card:hover::before {
+  opacity: 1;
+}
+
+.launch-card h4 {
+  font-family: var(--font-title);
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+
+.launch-card span {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
