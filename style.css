@@ -323,6 +323,7 @@ body {
 .sidebar-sections-list {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden; /* Lock horizontal scrolling to prevent off-alignment shifting */
   margin-top: 4px;
   margin-bottom: 4px;
   display: flex;
@@ -369,6 +370,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0; /* Enforces flex child shrinking to trigger text-overflow truncation */
   border: 1px solid transparent;
   transition: var(--transition-smooth);
 }
