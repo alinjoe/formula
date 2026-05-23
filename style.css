@@ -172,6 +172,7 @@ body {
   align-items: center;
   gap: 12px;
   border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0; /* Prevents logo from shrinking on small viewport heights */
 }
 
 .logo-symbol {
@@ -202,6 +203,7 @@ body {
 .sidebar-menu {
   flex: 1;
   overflow-y: auto;
+  min-height: 0; /* Standard Flexbox fix: allows item to shrink below content height & scroll */
   padding: 20px 16px;
   display: flex;
   flex-direction: column;
@@ -386,6 +388,7 @@ body {
 .sidebar-footer {
   padding: 16px;
   border-top: 1px solid var(--border-color);
+  flex-shrink: 0; /* Prevents search footer from shrinking or disappearing */
 }
 
 /* --- Top Action Header --- */

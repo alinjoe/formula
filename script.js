@@ -826,7 +826,7 @@ function renderDashboard(sheetId) {
   const sheetConfig = SHEETS_CONFIG.find(sc => sc.id === sheetId);
   if (!sheetConfig) return;
   
-  sectionsWrapper.style.display = 'block';
+  sectionsWrapper.style.display = 'flex';
   
   if (!currentSectionId || !sheetConfig.sections.some(s => s.id === currentSectionId)) {
     currentSectionId = sheetConfig.sections[0].id;
@@ -1368,7 +1368,7 @@ function updateSidebarSectionsList(sheetId) {
     return;
   }
   
-  sectionsWrapper.style.display = 'block';
+  sectionsWrapper.style.display = 'flex';
   const sheetConfig = SHEETS_CONFIG.find(sc => sc.id === sheetId);
   if (!sheetConfig) return;
   
