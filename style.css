@@ -311,7 +311,7 @@ body {
 #sidebar-sections-container {
   border-top: 1px solid var(--border-color);
   background-color: rgba(9, 9, 11, 0.45); /* Subtle dark technical contrast */
-  padding: 16px 20px;
+  padding: 20px 16px; /* Exactly matches sidebar-menu horizontal padding for visual symmetry */
   max-height: 250px;
   display: flex;
   flex-direction: column;
@@ -328,8 +328,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding-left: 10px;
-  border-left: 2px solid var(--border-color);
+  padding-left: 0; /* Remove left padding to align perfectly even with cards edge */
   padding-right: 4px;
 }
 
@@ -360,28 +359,32 @@ body {
 }
 
 .sidebar-section-item {
-  font-size: 11.5px;
+  font-size: 12px;
   font-family: var(--font-data);
   font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
   color: var(--text-light);
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  border: 1px solid transparent;
   transition: var(--transition-smooth);
 }
 
-.sidebar-section-item:hover, .sidebar-section-item.active {
+.sidebar-section-item:hover {
   color: var(--text-main);
   background-color: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.04);
 }
 
 .sidebar-section-item.active {
   color: var(--accent-cyan);
-  background-color: rgba(6, 182, 212, 0.05);
+  background: linear-gradient(90deg, rgba(6, 182, 212, 0.08) 0%, rgba(6, 182, 212, 0.01) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.25);
   font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Sidebar Footer Command button */
