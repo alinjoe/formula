@@ -10,6 +10,7 @@
 <body>
 
   <div class="app-container">
+    <div class="mobile-sidebar-overlay" id="mobile-sidebar-overlay"></div>
     
     <!-- Left Navigation Sidebar: Interactive Premium Cards -->
     <aside class="sidebar-navigation" id="sidebar-nav">
@@ -143,9 +144,14 @@
       
       <!-- Top Action Bar -->
       <header class="top-header">
-        <div class="header-meta">
-          <h2 id="active-sheet-title">Instructions &amp; Guide</h2>
-          <p id="active-sheet-desc">Get started with our premium engineering suite</p>
+        <div class="top-header-title-row">
+          <button class="menu-mobile-toggle" id="btn-sidebar-mobile-toggle" title="Toggle Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="header-meta">
+            <h2 id="active-sheet-title">Instructions &amp; Guide</h2>
+            <p id="active-sheet-desc">Get started with our premium engineering suite</p>
+          </div>
         </div>
         
         <div class="header-actions">

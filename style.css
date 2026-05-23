@@ -1535,3 +1535,230 @@ body {
   position: relative;
   z-index: 1;
 }
+
+/* ==========================================
+   MOBILE & TABLET RESPONSIVE ENGINE
+   ========================================== */
+
+/* Toggle Button styling (hidden on Desktop) */
+.menu-mobile-toggle {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  /* Stack 3-panel dashboard vertically */
+  .dashboard-layout {
+    flex-direction: column;
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+  }
+  
+  .pane-panel {
+    width: 100% !important;
+    height: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  /* Put the CAD board visualization at the top, design inputs below, results at the bottom */
+  .panel-inputs {
+    order: 2;
+    background-color: var(--bg-app);
+  }
+  
+  .panel-visualization {
+    order: 1;
+    min-height: 400px;
+    background-color: #070709;
+  }
+  
+  .panel-results {
+    order: 3;
+    background-color: var(--bg-app);
+  }
+  
+  .visualization-viewer {
+    padding: 20px !important;
+  }
+  
+  .vector-diagram-card {
+    max-width: 100% !important;
+    padding: 16px !important;
+  }
+  
+  /* Make top header stack or wrap action items */
+  .top-header {
+    padding: 16px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .header-actions .btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  /* Spreadsheet Grid spacing on tablets */
+  .formula-bar {
+    padding: 8px 16px;
+    gap: 8px;
+  }
+  
+  .excel-table th, .excel-table td {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* App container adjustments */
+  .app-container {
+    position: relative;
+  }
+
+  /* Hamburger Title Row */
+  .top-header-title-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Show mobile sidebar toggle */
+  .menu-mobile-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 12px;
+    flex-shrink: 0;
+    transition: var(--transition-smooth);
+  }
+  
+  .menu-mobile-toggle:hover {
+    border-color: var(--border-active);
+    background-color: var(--bg-input);
+  }
+
+  .menu-mobile-toggle svg {
+    stroke: var(--text-main);
+  }
+
+  /* Transform Sidebar into a sliding drawer overlay */
+  .sidebar-navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 290px;
+    transform: translateX(-100%);
+    z-index: 1000;
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.8);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .sidebar-navigation.mobile-open {
+    transform: translateX(0);
+  }
+  
+  /* Mobile Sidebar backdrop screen */
+  .mobile-sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .mobile-sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+
+  /* UI buttons scale to fit standard mobile screen widths */
+  .header-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 6px;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .header-actions::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  .header-actions .btn {
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+    white-space: nowrap;
+  }
+  
+  .view-switcher-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  /* Adjust dynamic gauges on phones */
+  .gauge-visual-card {
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  .gauge-svg-container {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Make sure math equation renders clearly without clipping */
+  .equation-rendered {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  /* Floating commands center modal positioning */
+  .cmd-bar-overlay {
+    padding-top: 6vh;
+  }
+
+  .cmd-bar-modal {
+    width: 90%;
+    max-width: none;
+  }
+
+  /* Footer layout */
+  .app-footer {
+    padding: 8px 16px;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  .footer-left {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
