@@ -301,14 +301,56 @@ body {
 }
 
 /* Collapsible nested sections loop in sidebar */
-.sidebar-sections-list {
-  margin-top: 6px;
-  margin-bottom: 6px;
+/* --- Distinct Active Modules Container --- */
+#sidebar-sections-container {
+  border-top: 1px solid var(--border-color);
+  background-color: rgba(9, 9, 11, 0.45); /* Subtle dark technical contrast */
+  padding: 16px 20px;
+  max-height: 250px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 8px;
+  flex-shrink: 0;
+  transition: var(--transition-smooth);
+}
+
+.sidebar-sections-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   padding-left: 10px;
-  border-left: 1px solid var(--border-color);
+  border-left: 2px solid var(--border-color);
+  padding-right: 4px;
+}
+
+/* Custom scrollbar for active modules list to make it ultra-sleek */
+.sidebar-sections-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-sections-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-sections-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.sidebar-sections-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] #sidebar-sections-container {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="light"] .sidebar-sections-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .sidebar-section-item {
