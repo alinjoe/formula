@@ -106,28 +106,32 @@
 
 /* Specific sub-navigation slim horizontal scrollbar */
 .dashboard-sub-nav::-webkit-scrollbar {
-  height: 4px;
+  height: 5px;
 }
 
 .dashboard-sub-nav::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.dashboard-sub-nav::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.01);
   border-radius: 999px;
 }
 
+.dashboard-sub-nav::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.35); /* Glowing tech cyan thumb */
+  border-radius: 999px;
+  box-shadow: 0 0 6px rgba(0, 240, 255, 0.2);
+}
+
 .dashboard-sub-nav::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 240, 255, 0.6);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
 }
 
 [data-theme="light"] .dashboard-sub-nav::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(37, 99, 235, 0.35); /* Electric blue in light theme */
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.2);
 }
 
 [data-theme="light"] .dashboard-sub-nav::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(37, 99, 235, 0.6);
 }
 
 
@@ -745,11 +749,13 @@ body {
 
 .dashboard-sub-nav {
   display: flex;
+  flex-shrink: 0; /* Prevents flexbox squishing on mobile views */
   background-color: var(--bg-card);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
   padding: 0 24px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Momentum scrolling for smooth touch experience */
   gap: 24px;
   height: 48px;
 }
@@ -764,6 +770,7 @@ body {
   position: relative;
   height: 100%;
   white-space: nowrap;
+  flex-shrink: 0; /* Prevents tabs from squishing when container is small */
   transition: var(--transition-smooth);
 }
 
@@ -1587,7 +1594,7 @@ body {
   display: none;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
   /* Stack 3-panel dashboard vertically */
   .dashboard-layout {
     flex-direction: column;
